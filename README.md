@@ -94,7 +94,7 @@ sudo grub-customizer
 
 ```
 git config core.fileMode false
-chmod +x ./build.sh
+chmod +x *.sh
 ./build.sh
 ```
 
