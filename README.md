@@ -93,6 +93,8 @@ sudo grub-customizer
  To build the required applications, run the following:
 
 ```
+git config core.fileMode false
+chmod +x ./build.sh
 ./build.sh
 ```
 
@@ -108,6 +110,7 @@ In the Standalone actor version, no learner will be initiated. This can be usefu
 ### Run a Sample Test with the acotr-learner version using the provided learned model
 
 ```
+chmod +x rl-module/mm-thr
 ./orca.sh 4 44444
 ``` 
 

@@ -7,7 +7,7 @@ then
     cur_dir=`pwd -P`
     scheme_="cubic"
     max_steps=500000         #Run untill you collect 50k samples per actor
-    eval_duration=30
+    eval_duration=1 #30
     num_actors=1
     memory_size=$((max_steps*num_actors))
     dir="${cur_dir}/rl-module"
@@ -66,11 +66,11 @@ then
       if [ $1 -eq 1 ];
       then
           # Start the learning from the scratch
-           /home/`logname`/venv/bin/python ${dir}/d5.py --job_name=learner --task=0 --base_path=${dir} &
+           /users/`logname`/venv/bin/python ${dir}/d5.py --job_name=learner --task=0 --base_path=${dir} &
            lpid=$!
        else
           # Continue the learning on top of previous model
-           /home/`logname`/venv/bin/python ${dir}/d5.py --job_name=learner --task=0 --base_path=${dir} --load &
+           /users/`logname`/venv/bin/python ${dir}/d5.py --job_name=learner --task=0 --base_path=${dir} --load &
            lpid=$!
        fi
        sleep 10
