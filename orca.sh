@@ -8,12 +8,14 @@ then
     scheme_="cubic"
     max_steps=500000         #Run untill you collect 50k samples per actor
     eval_duration=1 #30
-    num_actors=1
+    num_actors=7
     memory_size=$((max_steps*num_actors))
+    remote="false"
     dir="${cur_dir}/rl-module"
 
     sed "s/\"num_actors\"\: 1/\"num_actors\"\: $num_actors/" $cur_dir/params_base.json > "${dir}/params.json"
     sed -i "s/\"memsize\"\: 5320000/\"memsize\"\: $memory_size/" "${dir}/params.json"
+    sed -i "s/\"remote\"\: true/\"remote\"\: $remote/" "${dir}/params.json"
     sudo killall -s9 python client orca-server-mahimahi
 
     epoch=20
@@ -78,16 +80,16 @@ then
        #Bring up the actors:
        # Here, we go with single actor
        act_id=0
-       for dl in 48
+       for dl in 6 12 24 48 96 192 300
        do
            downl="wired$dl"
            upl=$downl
-           for del in 10
+           for del in 5 10 20 40 80
            do
                bdp=$((2*dl*del/12))      #12Mbps=1pkt per 1 ms ==> BDP=2*del*BW=2*del*dl/12
-               for qs in $((2*bdp))
+               for qs in $((bdp/2)) $bdp $((2*bdp)) $((4*bdp)) $((8*bdp)) $((16*bdp))
                do
-                   ./actor.sh ${act_port} $epoch ${first_time} $scheme_ $dir $act_id $downl $upl $del 0 $qs $max_steps
+                   ./actor.sh ${act_port} $epoch ${first_time} $scheme_ $dir $act_id $downl $upl $del 0 $qs $max_steps &
                    pids="$pids $!"
                    act_id=$((act_id+1))
                    act_port=$((port_base+act_id))
