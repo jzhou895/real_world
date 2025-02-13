@@ -1,0 +1,5 @@
+servers:
+  - hostname: clnode060.clemson.cloudlab.us
+    branch: cloudlab-test
+  - hostname: clnode068.clemson.cloudlab.us
+    branch: embedding-input
