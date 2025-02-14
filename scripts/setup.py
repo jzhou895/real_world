@@ -20,6 +20,37 @@ with open(CONFIG_FILE, "r") as file:
 servers = config["servers"]
 username = "janechen"
 
+# Local path of the checkpoint file
+LOCAL_CHECKPOINT_PATH = "/home/jane/Desktop/Checkpoint-Combined_10RTT_6col_Transformer3_64_5_5_16_4_lr_1e-05-999iter.p"
+REMOTE_CHECKPOINT_PATH = "/users/janechen/Orca/models/"
+
+def scp_file(server):
+    """ SCP the checkpoint file to the remote server if the branch is 'embedding-input' """
+    print(f"Transferring checkpoint file to {server}...")
+
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+    try:
+        client.connect(server, username=username)
+        sftp = client.open_sftp()
+
+        # Ensure the remote directory exists
+        try:
+            sftp.stat(REMOTE_CHECKPOINT_PATH)  # Check if directory exists
+        except FileNotFoundError:
+            sftp.mkdir(REMOTE_CHECKPOINT_PATH)  # Create directory if not exists
+
+        # Transfer the file
+        sftp.put(LOCAL_CHECKPOINT_PATH, os.path.join(REMOTE_CHECKPOINT_PATH, os.path.basename(LOCAL_CHECKPOINT_PATH)))
+        print(f"Checkpoint file successfully transferred to {server}:{REMOTE_CHECKPOINT_PATH}")
+
+        sftp.close()
+    except Exception as e:
+        print(f"Error transferring checkpoint file to {server}: {e}")
+    finally:
+        client.close()
+
 def run_remote_commands(server, commands):
     """ SSH into the server and execute the given commands """
     print(f"Connecting to {server}...")
@@ -90,7 +121,7 @@ def setup_server(server_config):
         "virtualenv ~/venv -p python3",
         
         "source ~/venv/bin/activate && pip install --upgrade pip",
-        "source ~/venv/bin/activate && pip install gym tensorflow==1.14 sysv_ipc",
+        "source ~/venv/bin/activate && pip install gym tensorflow==1.14 sysv_ipc torch",
         
         "cd ~ && git clone https://github.com/soheil-ab/sage.git",
         "cd ~/sage/linux-patch && sudo dpkg -i linux-image-4.19.112-0062_4.19.112-0062-10.00.Custom_amd64.deb",
@@ -119,7 +150,6 @@ def setup_server(server_config):
         "cd ~/Orca && chmod +x rl-module/mm-thr"
     ]
 
-
     # Run commands before reboot
     if not args.after_reboot:
         run_remote_commands(server, commands_before_reboot)
@@ -128,6 +158,10 @@ def setup_server(server_config):
     if wait_for_server(server):
         # Run commands after reboot
         run_remote_commands(server, commands_after_reboot)
+
+        # If the branch is 'embedding-input', copy the checkpoint file
+        if branch == "embedding-input":
+            scp_file(server)
     else:
         print(f"Skipping post-reboot setup for {server} due to timeout.")
 
