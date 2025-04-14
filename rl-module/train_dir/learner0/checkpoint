@@ -1,2 +1,2 @@
-model_checkpoint_path: "model.ckpt-1283529"
-all_model_checkpoint_paths: "model.ckpt-1283529"
+model_checkpoint_path: "/users/jeffreyz/Orca/rl-module/train_dir/learner0/model.ckpt-1283529"
+all_model_checkpoint_paths: "/users/jeffreyz/Orca/rl-module/train_dir/learner0/model.ckpt-1283529"
