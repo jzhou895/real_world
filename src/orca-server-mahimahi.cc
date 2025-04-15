@@ -145,14 +145,16 @@ void start_server(int flow_num, int client_port)
     }
 
     char container_cmd[500];
-    sprintf(container_cmd,"sudo -u `whoami` %s/client $MAHIMAHI_BASE 1 %d",path,client_port);
+    // sprintf(container_cmd,"sudo -u `whoami` %s/client $MAHIMAHI_BASE 1 %d",path,client_port);
     char cmd[1000];
     char final_cmd[1000];
+    // sprintf(final_cmd, "ssh jeffreyz@10.10.1.2 \"cd Orca; bash run_mm.sh test %d\" &",1111);
 
-    if (first_time==4 || first_time==2)
-        sprintf(cmd, "sudo -u `whoami`   mm-delay %d mm-link %s/../traces/%s %s/../traces/%s --downlink-log=%s/log/down-%s --uplink-queue=droptail --uplink-queue-args=\"packets=%d\" --downlink-queue=droptail --downlink-queue-args=\"packets=%d\" -- sh -c \'%s\' &",delay_ms,path,uplink,path,downlink,path,log_file,qsize,qsize,container_cmd);
-    else
-        sprintf(cmd, "sudo -u `whoami`  mm-delay %d mm-link %s/../traces/%s %s/../traces/%s --uplink-queue=droptail --uplink-queue-args=\"packets=%d\" --downlink-queue=droptail --downlink-queue-args=\"packets=%d\" -- sh -c \'%s\' &",delay_ms,path,uplink,path,downlink,qsize,qsize,container_cmd);
+
+    // if (first_time==4 || first_time==2)
+    //     sprintf(cmd, "sudo -u `whoami`   mm-delay %d mm-link %s/../traces/%s %s/../traces/%s --downlink-log=%s/log/down-%s --uplink-queue=droptail --uplink-queue-args=\"packets=%d\" --downlink-queue=droptail --downlink-queue-args=\"packets=%d\" -- sh -c \'%s\' &",delay_ms,path,uplink,path,downlink,path,log_file,qsize,qsize,container_cmd);
+    // else
+    //     sprintf(cmd, "sudo -u `whoami`  mm-delay %d mm-link %s/../traces/%s %s/../traces/%s --uplink-queue=droptail --uplink-queue-args=\"packets=%d\" --downlink-queue=droptail --downlink-queue-args=\"packets=%d\" -- sh -c \'%s\' &",delay_ms,path,uplink,path,downlink,qsize,qsize,container_cmd);
     
     sprintf(final_cmd,"%s",cmd);
 
@@ -188,6 +190,7 @@ void start_server(int flow_num, int client_port)
         printf("Error attaching shared memory id");
         return;
     } 
+    
     if (first_time==1){
         sprintf(cmd,"/users/`whoami`/venv/bin/python %s/d5.py --tb_interval=1 --base_path=%s --task=%d --job_name=actor --train_dir=%s --mem_r=%d --mem_w=%d &",path,path,actor_id,path,(int)key,(int)key_rl);
         DBGPRINT(0,0,"Starting RL Module (Without load) ...\n%s",cmd);
@@ -451,12 +454,12 @@ void* CntThread(void* information)
                         t0=timestamp();
 
                         target_ratio=1.1*orca_info.cwnd;
-                        ret1 = setsockopt(sock_for_cnt[i], IPPROTO_TCP,TCP_CWND, &target_ratio,sizeof(target_ratio));
-                        if(ret1<0)
-                        {
-                           DBGPRINT(0,0,"setsockopt: for index:%d flow_index:%d ... %s (ret1:%d)\n",i,          flow_index,strerror(errno),ret1);
-                           return((void *)0);
-                        }
+                        // ret1 = setsockopt(sock_for_cnt[i], IPPROTO_TCP,TCP_CWND, &target_ratio,sizeof(target_ratio));
+                        // if(ret1<0)
+                        // {
+                        //    DBGPRINT(0,0,"setsockopt: for index:%d flow_index:%d ... %s (ret1:%d)\n",i,          flow_index,strerror(errno),ret1);
+                        //    return((void *)0);
+                        // }
                         continue;
                     }
                     sprintf(message,"%d %.7f %.7f %.7f %.7f %.7f %.7f %.7f %.7f %.7f %.7f %.7f %.7f %.7f %.7f %.7f",
@@ -510,12 +513,12 @@ void* CntThread(void* information)
                   if (target_ratio<MIN_CWND)
                       target_ratio=MIN_CWND;
 
-                  ret1 = setsockopt(sock_for_cnt[i], IPPROTO_TCP,TCP_CWND, &target_ratio, sizeof(target_ratio));
-                  if(ret1<0)
-                  {
-                      DBGPRINT(0,0,"setsockopt: for index:%d flow_index:%d ... %s (ret1:%d)\n",i,flow_index,strerror(errno),ret1);
-                      return((void *)0);
-                  }
+                //   ret1 = setsockopt(sock_for_cnt[i], IPPROTO_TCP,TCP_CWND, &target_ratio, sizeof(target_ratio));
+                //   if(ret1<0)
+                //   {
+                //       DBGPRINT(0,0,"setsockopt: for index:%d flow_index:%d ... %s (ret1:%d)\n",i,flow_index,strerror(errno),ret1);
+                //       return((void *)0);
+                //   }
                   error_cnt=0;
                }
                else{
