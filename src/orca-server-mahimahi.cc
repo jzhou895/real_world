@@ -444,12 +444,12 @@ void* CntThread(void* information)
                         t0=timestamp();
 
                         target_ratio=1.1*orca_info.cwnd;
-                        // ret1 = setsockopt(sock_for_cnt[i], IPPROTO_TCP,TCP_CWND, &target_ratio,sizeof(target_ratio));
-                        // if(ret1<0)
-                        // {
-                        //    DBGPRINT(0,0,"setsockopt: for index:%d flow_index:%d ... %s (ret1:%d)\n",i,          flow_index,strerror(errno),ret1);
-                        //    return((void *)0);
-                        // }
+                        ret1 = setsockopt(sock_for_cnt[i], IPPROTO_TCP,TCP_CWND, &target_ratio,sizeof(target_ratio));
+                        if(ret1<0)
+                        {
+                           DBGPRINT(0,0,"setsockopt: for index:%d flow_index:%d ... %s (ret1:%d)\n",i,          flow_index,strerror(errno),ret1);
+                           return((void *)0);
+                        }
                         continue;
                     }
                     sprintf(message,"%d %.7f %.7f %.7f %.7f %.7f %.7f %.7f %.7f %.7f %.7f %.7f %.7f %.7f %.7f %.7f",
@@ -503,12 +503,12 @@ void* CntThread(void* information)
                   if (target_ratio<MIN_CWND)
                       target_ratio=MIN_CWND;
 
-                //   ret1 = setsockopt(sock_for_cnt[i], IPPROTO_TCP,TCP_CWND, &target_ratio, sizeof(target_ratio));
-                //   if(ret1<0)
-                //   {
-                //       DBGPRINT(0,0,"setsockopt: for index:%d flow_index:%d ... %s (ret1:%d)\n",i,flow_index,strerror(errno),ret1);
-                //       return((void *)0);
-                //   }
+                  ret1 = setsockopt(sock_for_cnt[i], IPPROTO_TCP,TCP_CWND, &target_ratio, sizeof(target_ratio));
+                  if(ret1<0)
+                  {
+                      DBGPRINT(0,0,"setsockopt: for index:%d flow_index:%d ... %s (ret1:%d)\n",i,flow_index,strerror(errno),ret1);
+                      return((void *)0);
+                  }
                   error_cnt=0;
                }
                else{
