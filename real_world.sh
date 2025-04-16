@@ -7,4 +7,3 @@ do
     ./orca-off.sh 4 1111 $2 "${3}-off-run-${i}"
 done
 ssh $2 "cd ~/logs; find -type f -name '*timestamp*' -delete"
-./get_logs.sh $2
