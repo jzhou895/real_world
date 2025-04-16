@@ -145,7 +145,6 @@ void start_server(int flow_num, int client_port)
     }
 
     char container_cmd[500];
-    // sprintf(container_cmd,"sudo -u `whoami` %s/client $MAHIMAHI_BASE 1 %d",path,client_port);
     char cmd[1000];
     char final_cmd[1000];
     // sprintf(final_cmd, "ssh jeffreyz@10.10.1.2 \"cd Orca; bash run_mm.sh test %d\" &",1111);

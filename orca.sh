@@ -1,4 +1,4 @@
-if [ $# -eq 2 ]
+if [ $# -eq 4 ]
 then
     source setup.sh
     rm -rf flag.txt
@@ -47,6 +47,8 @@ then
                done
            done
        done
+        sleep 30
+        ssh $3 "cd ~/Orca; bash run_mm.sh $4, $2"
         for pid in $pids
         do
             echo "waiting for $pid"
@@ -117,5 +119,5 @@ then
        done
     fi
 else
-    echo "usage: $0 [{Learning from scratch=1} {Continue your learning=0} {Just Do Evaluation=4}] [base port number ]"
+    echo "usage: $0 [{Learning from scratch=1} {Continue your learning=0} {Just Do Evaluation=4}] [base port number ] [link name] [log name]"
 fi
