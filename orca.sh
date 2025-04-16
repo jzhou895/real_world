@@ -48,7 +48,7 @@ then
            done
        done
         sleep 30
-        ssh $3 "cd ~/Orca; bash run_mm.sh $4, $2"
+        ssh $3 "cd ~/Orca; bash run_mm.sh $4 $2"
         for pid in $pids
         do
             echo "waiting for $pid"
