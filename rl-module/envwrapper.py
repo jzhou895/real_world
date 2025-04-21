@@ -311,8 +311,6 @@ class TCP_Env_Wrapper(object):
             state=np.append(state,[min_rtt_min/srtt_ms_min])
             state=np.append(state,[delay_metric])
 
-            sleep(.01)
-
             self.prev_rid = rid
             return state, d, reward, True
         else:
