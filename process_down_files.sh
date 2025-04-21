@@ -11,3 +11,5 @@ for resultfile in `find "$RESULTS_DIR/$dir" -type f -name 'down-*'`; do
         echo "Skipping $resultfile since final sumfile exists"
     fi
 done
+
+python attach_reward.py $1 # Temporary Line

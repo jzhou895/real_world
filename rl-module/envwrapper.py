@@ -293,8 +293,10 @@ class TCP_Env_Wrapper(object):
             else:
                 delay_metric=1
 
-            reward  = (thr_n_min-5*loss_rate_n_min)/self.max_bw*delay_metric
-
+            reward = (thr_n_min-5*loss_rate_n_min)/self.max_bw*delay_metric
+            with open("reward.txt", "a") as f:
+                f.write(str(reward) + "\n")
+                
             if self.max_bw!=0:
                 state[0]=thr_n_min/self.max_bw
                 tmp=pacing_rate_n_min/self.max_bw
@@ -311,7 +313,7 @@ class TCP_Env_Wrapper(object):
             state=np.append(state,[min_rtt_min/srtt_ms_min])
             state=np.append(state,[delay_metric])
 
-            sleep(.01)
+            sleep(1.028)
 
             self.prev_rid = rid
             return state, d, reward, True
