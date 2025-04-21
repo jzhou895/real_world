@@ -144,9 +144,7 @@ void start_server(int flow_num, int client_port)
         }
     }
 
-    char container_cmd[500];
     char cmd[1000];
-    char final_cmd[1000];
     
     info->trace=trace;
     info->num_lines=num_lines;
@@ -231,8 +229,6 @@ void start_server(int flow_num, int client_port)
     }
     DBGPRINT(0,0,"RL Module is Ready. Let's Start ...\n\n");    
     usleep(actor_id*10000+10000);
-    //Now its time to start the server-client app and tune C2TCP socket.
-    system(final_cmd);
         
     //Start listen
     int maxfdp=-1;

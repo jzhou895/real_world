@@ -1,9 +1,10 @@
 # [Num Runs] [Link Name] [Log Name]
 
+rm -rf logs
 ssh $2 "mkdir logs"
 for i in $(seq 1 $1);
 do
     ./orca.sh 4 1111 $2 "${3}-run-${i}"
-    ./orca-off.sh 4 1111 $2 "${3}-off-run-${i}"
+    # ./orca-off.sh 4 1111 $2 "${3}-off-run-${i}"
 done
-ssh $2 "cd $HOME/logs; find -type f -name '*timestamp*' -delete; cd $HOME/Orca; bash get_logs.sh"
+ssh $2 "cd ~/logs; find -type f -name '*timestamp*' -delete;"
