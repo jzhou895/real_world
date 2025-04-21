@@ -292,9 +292,7 @@ class TCP_Env_Wrapper(object):
                 delay_metric=(min_rtt_min*(self.params.dict['delay_margin_coef']))/srtt_ms_min
             else:
                 delay_metric=1
-
-            reward  = (thr_n_min-5*loss_rate_n_min)/self.max_bw*delay_metric
-
+                
             if self.max_bw!=0:
                 state[0]=thr_n_min/self.max_bw
                 tmp=pacing_rate_n_min/self.max_bw
