@@ -1,3 +1,5 @@
 East_Asia_Delay_1028-run-1:0.984404703616
 East_Asia_Delay_1028-run-2:0.980353207505
 East_Asia_Delay_1028-run-3:0.982721922063
+East_Asia_Delay_1028-run-4:0.98179557285
+East_Asia_Delay_1028-run-5:0.986366788495
