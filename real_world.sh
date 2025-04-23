@@ -1,7 +1,9 @@
 # [Num Runs] [Link Name] [Log Name] [ip]
 
-delays=(0 10)
+delays=(0 10 50 100)
 
+rm -rf results
+mkdir results
 for delay in ${delays[@]};
 do
     rm -rf logs
@@ -20,5 +22,3 @@ do
     mkdir results/$delay
     cp ./logs/*sum* results/$delay
 done  
-done
-

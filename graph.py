@@ -80,10 +80,14 @@ def process_results():
         packet_delay.append(total_packet_delay / count)
         reward.append(total_reward / count)
 
-    plot_data_with_baseline(delays, throughput, "Delay (ms)", "Throughput (%)", off_throughput, "Throughput_Compare.png")
+    # plot_data_with_baseline(delays, throughput, "Delay (ms)", "Throughput (%)", off_throughput, "Throughput_Compare.png")
     plot_data(delays, throughput, "Delay (ms)", "Throughput (%)", "Throughput.png")
-    plot_data_with_baseline(delays, packet_delay, "Delay (ms)", "Packet_Delay (ms)", off_packet_delay, "Per_Packet_Delay_Compare.png")
+    # plot_data_with_baseline(delays, packet_delay, "Delay (ms)", "Packet_Delay (ms)", off_packet_delay, "Per_Packet_Delay_Compare.png")
     plot_data(delays, packet_delay, "Delay (ms)", "Packet_Delay (ms)", "Per_Packet_Delay.png")
     plot_data(delays, reward, "Delay (ms)", "Reward", "Reward.png")
+
+    final_data = pd.DataFrame({'delay': delays, 'throughput': throughput, 'packet_delay': packet_delay, 'reward': reward})
+    final_data.sort_values('delay', inplace=True)
+    final_data.to_csv(sys.argv[1] + "/raw_data.csv", index=False)
 
 process_results()

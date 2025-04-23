@@ -47,7 +47,7 @@ then
                done
            done
        done
-        sleep 30
+        sleep 33
         ssh $3 "cd ~/Orca; bash run_mm.sh $4 $2"
         for pid in $pids
         do
