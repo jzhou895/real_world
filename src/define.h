@@ -56,6 +56,7 @@ char *shared_memory_rl;
 int shmem_size=2048; //Shared Memory size: 2KBytes
 int key1=0;
 int key2=0;
+int delay;
 //----------------------------------------------------*
 typedef unsigned int u32;
 typedef int s32;

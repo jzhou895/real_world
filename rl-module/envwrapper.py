@@ -101,7 +101,7 @@ class GYM_Env_Wrapper(Env_Wrapper):
 
 
 class TCP_Env_Wrapper(object):
-    def __init__(self,name, params, config=None, for_init_only=True, shrmem_r=None, shrmem_w=None,use_normalizer=True):
+    def __init__(self,name, params, config=None, for_init_only=True, shrmem_r=None, shrmem_w=None,use_normalizer=True, delay=0):
 
         self.params = params
         if not for_init_only:
@@ -121,6 +121,7 @@ class TCP_Env_Wrapper(object):
             self.max_cwnd = 0.0
             self.max_smp = 0.0
             self.min_del = 9999999.0
+            self.delay = delay
 
             self.use_normalizer=use_normalizer
             if self.use_normalizer==True:
@@ -313,7 +314,7 @@ class TCP_Env_Wrapper(object):
             state=np.append(state,[min_rtt_min/srtt_ms_min])
             state=np.append(state,[delay_metric])
 
-            sleep(1.028)
+            sleep(self.delay)
 
             self.prev_rid = rid
             return state, d, reward, True

@@ -1,14 +1,24 @@
-# [Num Runs] [Link Name] [Log Name]
+# [Num Runs] [Link Name] [Log Name] [ip]
 
-rm -rf logs
-ssh $2 "mkdir logs"
-rm -rf reward_averaged.txt # Temporary Line
-for i in $(seq 1 $1);
+delays=(0 10)
+
+for delay in ${delays[@]};
 do
-    rm -rf reward.txt # Temporary Line
-    ./orca.sh 4 1111 $2 "${3}-run-${i}"
-    # ./orca-off.sh 4 1111 $2 "${3}-off-run-${i}"
-    reward=$(python average.py reward.txt) # Temporary Line
-    echo "${3}-run-${i}:$reward" >> reward_averaged.txt # Temporary Line
+    rm -rf logs
+    ssh $2 "rm -rf logs; mkdir logs"
+    rm -rf reward_averaged.txt # Temporary Line
+    for i in $(seq 1 $1);
+    do
+        rm -rf reward.txt # Temporary Line
+        ./orca.sh 4 1111 $2 "${3}-delay-${delay}-run-${i}" $delay
+        # ./orca-off.sh 4 1111 $2 "${3}-off-run-${i}"
+        reward=$(python average.py reward.txt) # Temporary Line
+        echo "${3}-delay-${delay}-run-${i}:$reward" >> reward_averaged.txt # Temporary Line
+    done
+    ssh $2 "cd ~/logs; find -type f -name '*timestamp*' -delete; cd ..; scp -r logs jeffreyz@${4}:~/Orca"
+    ./process_down_files.sh logs
+    mkdir results/$delay
+    cp ./logs/*sum* results/$delay
+done  
 done
-ssh $2 "cd ~/logs; find -type f -name '*timestamp*' -delete;"
+

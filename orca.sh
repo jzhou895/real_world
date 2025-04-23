@@ -1,4 +1,4 @@
-if [ $# -eq 4 ]
+if [ $# -eq 5 ]
 then
     source setup.sh
     rm -rf flag.txt
@@ -26,8 +26,8 @@ then
        num_actors=1
        sed "s/\"num_actors\"\: 1/\"num_actors\"\: $num_actors/" $cur_dir/params_base.json > "${dir}/params.json"
 
-       echo "./learner.sh  $dir $first_time  &"
-       ./learner.sh  $dir ${first_time} &
+       echo "./learner.sh  $dir $first_time $5 &"
+       ./learner.sh  $dir ${first_time} $5 &
        #Bring up the actors:
        act_id=0
        for downl in "wired192"
@@ -39,7 +39,7 @@ then
                bdp=$((2*dl*del/12))     #12Mbps=1pkt per 1 ms ==> BDP=2*del*BW=2*del*dl/12
                for qs in $((2*bdp))
                do
-                   ./actor.sh ${act_port} $epoch ${first_time} $scheme_ $dir $act_id $downl $upl $del $eval_duration $qs 0 &
+                   ./actor.sh ${act_port} $epoch ${first_time} $scheme_ $dir $act_id $downl $upl $del $eval_duration $qs 0 $5 &
                    pids="$pids $!"
                    act_id=$((act_id+1))
                    act_port=$((port_base+act_id))

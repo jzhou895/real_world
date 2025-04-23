@@ -154,6 +154,7 @@ def main():
     parser.add_argument('--base_path',type=str, required=True)
     parser.add_argument('--job_name', type=str, choices=['learner', 'actor'], required=True, help='Job name: either {\'learner\', actor}')
     parser.add_argument('--task', type=int, required=True, help='Task id')
+    parser.add_argument('--delay', type=int, required=False, default=0)
 
 
     ## parameters from parser
@@ -206,7 +207,7 @@ def main():
 
     if params.dict['use_TCP']:
         env_str = "TCP"
-        env_peek = TCP_Env_Wrapper(env_str, params,use_normalizer=params.dict['use_normalizer'])
+        env_peek = TCP_Env_Wrapper(env_str, params,use_normalizer=params.dict['use_normalizer'],delay=config.delay)
 
     else:
         env_str = 'YourEnvironment'
@@ -274,7 +275,7 @@ def main():
                     if params.dict['use_TCP']:
                         shrmem_r = sysv_ipc.SharedMemory(config.mem_r)
                         shrmem_w = sysv_ipc.SharedMemory(config.mem_w)
-                        env = TCP_Env_Wrapper(env_str, params, config=config, for_init_only=False, shrmem_r=shrmem_r, shrmem_w=shrmem_w,use_normalizer=params.dict['use_normalizer'])
+                        env = TCP_Env_Wrapper(env_str, params, config=config, for_init_only=False, shrmem_r=shrmem_r, shrmem_w=shrmem_w,use_normalizer=params.dict['use_normalizer'], delay=config.delay / 1000)
                     else:
                         env = GYM_Env_Wrapper(env_str, params)
 
