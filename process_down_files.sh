@@ -12,4 +12,4 @@ for resultfile in `find "$RESULTS_DIR/$dir" -type f -name 'down-*'`; do
     fi
 done
 
-python attach_reward.py $1 # Temporary Line
+python attach_reward.py $1
