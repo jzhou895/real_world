@@ -1,0 +1,5 @@
+Average capacity: 192.52 Mbits/s
+Average throughput: 181.67 Mbits/s (94.4% utilization)
+95th percentile per-packet queueing delay: 44 ms
+Average per packet delay: 22 ms
+Reward: 0.739016553429

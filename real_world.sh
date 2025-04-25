@@ -1,6 +1,6 @@
 # [Num Runs] [Link Name] [Log Name] [ip]
 
-delays=(0 10 50 100)
+delays=(0 30 60 90 120 150 180 210 240 270 300)
 
 rm -rf results
 mkdir results
